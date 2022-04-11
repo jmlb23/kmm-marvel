@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.skydoves.androidveil.VeilLayout android:id="@+id/veilLayout"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    app:veilLayout_baseAlpha="0.6"
+    app:veilLayout_baseColor="@color/black"
+    app:veilLayout_dropOff="0.5"
+    app:veilLayout_highlightAlpha="1.0"
+    app:veilLayout_highlightColor="@android:color/darker_gray"
+    app:veilLayout_radius="6dp"
+    app:veilLayout_shimmerEnable="true"
+    app:veilLayout_veiled="true"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".5" />
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/name"
+            style="@style/TextAppearance.MaterialComponents.Headline4"
+            android:layout_width="0dp"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline"
+            tools:text="Lobezno" />
+
+        <TextView
+            android:id="@+id/description"
+            style="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            android:scrollbars="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/name"
+            tools:text="Lobezno" />
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/TextAppearance.MaterialComponents.Headline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="@string/comics"
+            app:layout_constraintBottom_toTopOf="@+id/comics"
+            app:layout_constraintStart_toStartOf="@id/comics" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/comics"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_margin="10dp"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:listitem="@layout/comic_item_layout" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.skydoves.androidveil.VeilLayout>
