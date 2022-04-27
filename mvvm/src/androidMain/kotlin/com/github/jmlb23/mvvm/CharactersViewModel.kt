@@ -1,4 +1,4 @@
-package com.github.jmlb23.marvel.characters
+package com.github.jmlb23.mvvm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,9 +8,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
-class CharactersViewModel constructor(
-    private val getCharactersPaginated: UseCase<Int, List<Character>>
-) : ViewModel() {
+actual class CharactersViewModel(actual val getCharactersPaginated: UseCase<Int, List<Character>>) :
+    ViewModel() {
     private val currentPage = MutableStateFlow(0)
     val elements = MutableStateFlow(listOf<Character>())
     val error = MutableStateFlow<String?>(null)

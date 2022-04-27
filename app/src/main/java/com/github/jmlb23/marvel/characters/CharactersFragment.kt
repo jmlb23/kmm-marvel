@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.jmlb23.marvel.databinding.FragmentCharactersBinding
 import com.github.jmlb23.marvel.domain.entity.Character
+import com.github.jmlb23.mvvm.CharactersViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*

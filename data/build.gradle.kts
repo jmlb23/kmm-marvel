@@ -5,13 +5,7 @@ plugins {
 }
 
 kotlin {
-    ios {
-        binaries {
-            framework {
-                baseName = "Shared"
-            }
-        }
-    }
+    ios()
 
     jvm()
 
@@ -27,6 +21,7 @@ kotlin {
                 implementation("io.ktor:ktor-client-content-negotiation:2.0.0")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:2.0.0")
                 implementation("io.insert-koin:koin-core:3.2.0-beta-1")
+                implementation( "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt")
             }
         }
         val commonTest by getting {
@@ -88,6 +83,3 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     }
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink>().configureEach {
-    kotlinOptions.freeCompilerArgs += "-Xobjc-generics"
-}

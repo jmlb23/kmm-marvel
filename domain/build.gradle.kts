@@ -7,13 +7,7 @@ repositories {
 }
 
 kotlin {
-    ios {
-        binaries {
-            framework {
-                baseName = "Shared"
-            }
-        }
-    }
+    ios()
 
     jvm()
 
@@ -26,6 +20,7 @@ kotlin {
         val commonTest by getting {
             dependencies{
                 implementation(kotlin("stdlib"))
+                implementation(kotlin("test"))
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
             }
@@ -37,8 +32,4 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink>().configureEach {
-    kotlinOptions.freeCompilerArgs += "-Xobjc-generics"
 }
