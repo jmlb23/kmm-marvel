@@ -22,6 +22,7 @@ kotlin {
                 implementation("io.ktor:ktor-serialization-kotlinx-json:2.0.0")
                 implementation("io.insert-koin:koin-core:3.2.0-beta-1")
                 implementation( "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt")
+                implementation("com.squareup.okio:okio:3.1.0")
             }
         }
         val commonTest by getting {
@@ -31,6 +32,13 @@ kotlin {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
                 implementation("io.insert-koin:koin-test:3.2.0-beta-1")
+            }
+        }
+
+        val iosMain by getting {
+            dependsOn(commonMain)
+            dependencies {
+                implementation("io.ktor:ktor-client-ios:2.0.0")
             }
         }
     }

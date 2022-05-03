@@ -1,3 +1,5 @@
 package com.github.jmlb23.marvel.data
 
-expect fun getTsAndHash(): Pair<String, String>
+import io.ktor.client.engine.*
+
+expect fun engine(): HttpClientEngineFactory<HttpClientEngineConfig>

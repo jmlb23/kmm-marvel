@@ -7,6 +7,8 @@ import com.github.jmlb23.marvel.domain.usecase.UseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 actual class CharacterViewModel(actual val getDetailUseCase: UseCase<Long, Character?>) :
@@ -16,7 +18,7 @@ actual class CharacterViewModel(actual val getDetailUseCase: UseCase<Long, Chara
     val errorMessage = _errorMessage.filterNotNull()
     val detail = _detail.filterNotNull()
 
-    fun getDetail(id: Long) {
+    actual fun getDetail(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             getDetailUseCase.exec(id).fold({
                 _detail.value = it
@@ -24,5 +26,10 @@ actual class CharacterViewModel(actual val getDetailUseCase: UseCase<Long, Chara
                 _errorMessage.value = it.message
             })
         }
+    }
+
+    actual fun detail(callback: (Character) -> Unit, errorCallback: (String) -> Unit) {
+        errorMessage.onEach { errorCallback(it) }.launchIn(viewModelScope)
+        detail.onEach { callback(it) }.launchIn(viewModelScope)
     }
 }

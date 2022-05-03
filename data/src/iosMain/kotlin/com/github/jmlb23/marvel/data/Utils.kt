@@ -1,7 +1,5 @@
 package com.github.jmlb23.marvel.data
-import platform.Foundation.*
-import platform.CryptoTokenKit.*
+import io.ktor.client.engine.*
+import io.ktor.client.engine.darwin.*
 
-actual fun getTsAndHash(): Pair<String, String> {
-    TODO()
-}
+actual fun engine(): HttpClientEngineFactory<HttpClientEngineConfig> = Darwin

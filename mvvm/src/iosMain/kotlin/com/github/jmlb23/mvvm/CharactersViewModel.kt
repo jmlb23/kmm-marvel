@@ -2,20 +2,30 @@ package com.github.jmlb23.mvvm
 
 import com.github.jmlb23.marvel.domain.entity.Character
 import com.github.jmlb23.marvel.domain.usecase.UseCase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
+import platform.darwin.*
+import kotlin.coroutines.CoroutineContext
 
-actual class CharactersViewModel(actual val getCharactersPaginated: UseCase<Int, List<Character>>){
-    private val viewModelScope = CoroutineScope(Dispatchers.Default)
+actual class CharactersViewModel actual constructor(private val getCharactersPaginated: UseCase<Int, List<Character>>) {
+    private val viewModelScope = CoroutineScope(object : CoroutineDispatcher() {
+        override fun dispatch(context: CoroutineContext, block: Runnable) {
+            val queue = dispatch_get_main_queue()
+            dispatch_async(queue) {
+                block.run()
+            }
+        }
+    })
+
     private val currentPage = MutableStateFlow(0)
-    val elements = MutableStateFlow(listOf<Character>())
-    val error = MutableStateFlow<String?>(null)
+    actual val elements = MutableStateFlow(listOf<Character>())
+    actual val error = MutableStateFlow<String?>(null)
+    var job: Job? = null
 
     private fun getCurrentPage() = currentPage.value
 
-    fun nextPage() {
+
+    actual fun nextPage() {
         viewModelScope.launch {
             getCharactersPaginated.exec(currentPage.value).fold({
                 elements.value = elements.value + it
@@ -25,4 +35,18 @@ actual class CharactersViewModel(actual val getCharactersPaginated: UseCase<Int,
             })
         }
     }
+
+    actual fun getElement(subcription: (List<Character>) -> Unit) {
+        job = viewModelScope.launch {
+            elements
+                .onEach { println("----> ${it.joinToString(",")}") }
+                .onEach(subcription)
+                .collect()
+        }
+    }
+
+    fun onCleared(){
+        job?.cancel()
+    }
+
 }

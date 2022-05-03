@@ -1,6 +1,5 @@
 package com.github.jmlb23.marvel.data
 
-import com.github.jmlb23.marvel.BuildKonfig
 import com.github.jmlb23.marvel.data.api.MarvelApi
 import com.github.jmlb23.marvel.data.api.impl.MarvelApiImpl
 import com.github.jmlb23.marvel.data.repoImpl.CharacterRepository
@@ -10,7 +9,6 @@ import com.github.jmlb23.marvel.domain.usecase.GetCharacterById
 import com.github.jmlb23.marvel.domain.usecase.GetCharactersPaginated
 import com.github.jmlb23.marvel.domain.usecase.UseCase
 import io.ktor.client.*
-import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
 import io.ktor.serialization.kotlinx.json.*
@@ -21,7 +19,7 @@ import org.koin.dsl.module
 
 val diData = module {
     single {
-        HttpClient(CIO) {
+        HttpClient(engine()) {
             install(ContentNegotiation) {
                 json(get())
             }

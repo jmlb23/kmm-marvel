@@ -6,17 +6,20 @@ import com.github.jmlb23.marvel.domain.entity.Character
 import com.github.jmlb23.marvel.domain.usecase.UseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-actual class CharactersViewModel(actual val getCharactersPaginated: UseCase<Int, List<Character>>) :
+actual class CharactersViewModel actual constructor(private val getCharactersPaginated: UseCase<Int, List<Character>>) :
     ViewModel() {
     private val currentPage = MutableStateFlow(0)
-    val elements = MutableStateFlow(listOf<Character>())
-    val error = MutableStateFlow<String?>(null)
+    actual val elements = MutableStateFlow(listOf<Character>())
+    actual val error = MutableStateFlow<String?>(null)
 
     private fun getCurrentPage() = currentPage.value
 
-    fun nextPage() {
+    actual fun nextPage() {
         viewModelScope.launch(Dispatchers.IO) {
             getCharactersPaginated.exec(currentPage.value).fold({
                 elements.value = elements.value + it
@@ -25,5 +28,9 @@ actual class CharactersViewModel(actual val getCharactersPaginated: UseCase<Int,
                 error.value = it.message ?: ""
             })
         }
+    }
+
+    actual fun getElement(subcription: (List<Character>) -> Unit) {
+        elements.onEach(subcription).launchIn(viewModelScope)
     }
 }
