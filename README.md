@@ -12,6 +12,6 @@ graph LR
 # Modules
 ```mermaid
 graph LR
-    A[App] --> B[Data <br/> \u0028plataform independent\u0029] --> C[Domain <br/> \u0028plataform independent\u0029]
+    A[App] --> B[MVVM <br/> \u0028plataform independent\u0029] --> B[Data <br/> \u0028plataform independent (implementations hidded behind interfaces and exposed through dependency injection)\u0029] --> C[Domain <br/> \u0028plataform independent\u0029]
 
 ```
